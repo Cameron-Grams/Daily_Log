@@ -3,6 +3,7 @@ class Daily_Log():
 
     def __init__(self):
         self.log = []
+        self.hour_log = []
 
     def entry(self):
         more_input = True
@@ -13,22 +14,43 @@ class Daily_Log():
             days_hours = eval(input("Enter hours studied: "))
             study_day = Day_of_Study(record_month, date, days_hours)
             self.log.append(study_day)
-            additional_records = input("Are there additional days to record? ")
+            additional_records = input("\nAre there additional days to record? (yes or no)\n")
             if additional_records == "no":
                 more_input = False
 
-    def report(self):
-        hour_log = []
+    def full_report(self):
         for day in self.log:
-            print(day) 
-        for day in self.log:
-            hour_log.append(day.hours)
-        print(hour_log)
+            print(day)
 
+    def hour_report(self):
+        for day in self.log:
+            self.hour_log.append(day.hours)
+#        print(self.hour_log)
+
+    def update_record(self):
+        file_type = input("Update an exitisng file (Y/N)?")
+        if (file_type == "Y") or (file_type == "y"):
+            file_name = (input("Enter file name: "))
+            work_file = open(file_name, "r")
+            work_string = work_file.read()
+            work_array = work_string.split()
+#            print(work_array)
+            work_file.close()
+        else:
+            work_array = []
+            file_name = (input("Enter name of file to save: "))
+
+        self.hour_report()
+        work_array = work_array + self.hour_log
+        file_name = " ".join(str(work_array))
+        print(type(file_name))
 
     def master_log(self):
-        pass
-        #this is where we have to put the data into a file... 
+        #returns an array of Day_of_Study objects
+        return self.log
+
+
+
 
 
 
@@ -47,8 +69,10 @@ class Day_of_Study():
         return "On {0} {1} I studied {2} hours.".format(self.day, self.month, self.hours)
 
     def hours(self):
-        return self.hours       
+        return self.hours
 
-log = Daily_Log() 
+log = Daily_Log()
 log.entry()
-log.report()
+log.full_report()
+print("*****")
+log.update_record()
