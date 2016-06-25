@@ -1,3 +1,5 @@
+from graphics import *
+
 class Daily_Log():
     #Daily_Log contains the collection of days of study and the mechanics to represent them
 
@@ -35,15 +37,11 @@ class Daily_Log():
             work_file = open(file_name, "r")
             work_string = work_file.read()
             self.work_array = work_string.split()
-#            print(work_array)
             work_file.close()
         else:
             file_name = (input("Enter name of file to save: "))
-
         self.hour_report()
         self.work_array = self.work_array + self.hour_log
-#        print(self.work_array)
-
 
     def graphic_array(self):
         int_array = []
@@ -61,12 +59,6 @@ class Daily_Log():
 
 
 
-
-
-
-
-
-
 class Day_of_Study():
     #this object contains the stats of the actual day of stady
 
@@ -81,9 +73,56 @@ class Day_of_Study():
     def hours(self):
         return self.hours
 
-log = Daily_Log()
-log.entry()
-log.full_report()
-print("*****")
-log.update_record()
-print(log.graphic_array())
+
+class Display():
+    #this is the object that develops the display of the log data
+    def __init__(self):
+        self.win = GraphWin("Time Line", 900, 500)
+        self.win.setBackground("#cc9900")
+        self.win.setCoords(0,0, 12, 12)
+
+    def configure(self):
+        x = Point(0.5,1)
+        x2 = Point(11,1)
+        y = Point(0.5,11)
+        Line(x,y).draw(self.win)
+        Line(x, x2).draw(self.win)
+
+        #hours per day scale y-axis
+        hour_location = Point(0.25, 1)
+        for i in range(13):
+            Text(Point(0.25, 1 + i), str(i)).draw(self.win)
+
+        #standard
+        xs = Point(0.5, 8)
+        xl = Point(11, 8)
+        standard = Line(xs, xl)
+        standard.draw(self.win)
+        standard.setOutline("Red")
+
+
+    def update(self, array):
+        print(array)
+        print(type(array))
+        start = 0.5
+        increment = 11.5/(len(array))
+        for p in array:
+            mark = Point(start, p)
+            mark.draw(self.win)
+            start = start + increment
+
+
+
+
+
+def main():
+    log = Daily_Log()
+    log.entry()
+    log.update_record()
+    egg_plant = log.graphic_array()
+    display = Display()
+    display.configure()
+    display.update(egg_plant)
+    x = input("Good?")
+
+main()
