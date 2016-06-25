@@ -1,3 +1,5 @@
+from graphics import *
+
 class Daily_Log():
     #Daily_Log contains the collection of days of study and the mechanics to represent them
 
@@ -26,7 +28,6 @@ class Daily_Log():
     def hour_report(self):
         for day in self.log:
             self.hour_log.append(day.hours)
-#        print(self.hour_log)
 
     def update_record(self):
         file_type = input("Update an exitisng file (Y/N)?")
@@ -35,17 +36,14 @@ class Daily_Log():
             work_file = open(file_name, "r")
             work_string = work_file.read()
             self.work_array = work_string.split()
-#            print(work_array)
             work_file.close()
         else:
             file_name = (input("Enter name of file to save: "))
-
         self.hour_report()
         self.work_array = self.work_array + self.hour_log
-#        print(self.work_array)
-
 
     def graphic_array(self):
+        #this is the array formated for use by Display, a list of ints
         int_array = []
         for initial_hours in self.work_array:
             i = int(initial_hours)
@@ -53,17 +51,12 @@ class Daily_Log():
         return int_array
 
     def log_array(self):
+        #this will be where the file is written out for storage
         pass
 
     def master_log(self):
         #returns an array of Day_of_Study objects
         return self.log
-
-
-
-
-
-
 
 
 
@@ -81,9 +74,54 @@ class Day_of_Study():
     def hours(self):
         return self.hours
 
-log = Daily_Log()
-log.entry()
-log.full_report()
-print("*****")
-log.update_record()
-print(log.graphic_array())
+
+class Display():
+    #this is the object that develops the display of the log data
+    def __init__(self):
+        self.win = GraphWin("Time Line", 900, 500)
+        self.win.setBackground("#cc9900")
+        self.win.setCoords(0,0, 12, 12)
+
+    def configure(self):
+        x = Point(0.5,1)
+        x2 = Point(11,1)
+        y = Point(0.5,11)
+        Line(x,y).draw(self.win)
+        Line(x, x2).draw(self.win)
+
+        #hours per day scale y-axis
+        hour_location = Point(0.25, 1)
+        for i in range(13):
+            Text(Point(0.25, 1 + i), str(i)).draw(self.win)
+
+        #standard
+        xs = Point(0.5, 8)
+        xl = Point(11, 8)
+        standard = Line(xs, xl)
+        standard.draw(self.win)
+        standard.setOutline("Red")
+
+
+    def update(self, array):
+        start = 0.5
+        increment = 11.5/(len(array))
+        for p in array:
+            mark = Point(start, p)
+            mark.draw(self.win)
+            start = start + increment
+
+
+
+
+
+def main():
+    log = Daily_Log()
+    log.entry()
+    log.update_record()
+    list_hours = log.graphic_array()
+    display = Display()
+    display.configure()
+    display.update(list_hours)
+    x = input("Good?")
+
+main()
