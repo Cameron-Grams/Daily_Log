@@ -95,8 +95,8 @@ class Display():
             Text(Point(0.25, 1 + i), str(i)).draw(self.win)
 
         #standard
-        xs = Point(0.5, 8)
-        xl = Point(11, 8)
+        xs = Point(0.5, 9)
+        xl = Point(11, 9)
         standard = Line(xs, xl)
         standard.draw(self.win)
         standard.setOutline("Red")
@@ -105,12 +105,18 @@ class Display():
     def update(self, array):
         start = 0.5
         increment = 11.5/(len(array))
+        p0 = Point(0.5, 9)
+        
         for p in array:
-            mark = Point(start, p)
+            mark = Point(start, p + 1)
             mark.draw(self.win)
             start = start + increment
+            progress_line = Line(p0, mark)
+            progress_line.draw(self.win)
+            p0 = mark            
+        
 
-
+        
 
 
 
