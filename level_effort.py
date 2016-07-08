@@ -115,9 +115,14 @@ class Display():
             progress_line.draw(self.win)
             p0 = mark            
         
-
-        
-
+    def metrics(self, array):
+        total_hours = sum(array)
+        average_hours = float(total_hours / len(array)) 
+        title_LOE = Text(Point(6, 11), "Display for Level of Effort")        
+        title_LOE.draw(self.win) 
+        hour_display = "Total hours studied: {0}          Average hours on Day of Study: {1}".format(total_hours, average_hours)
+        metrics_display = Text(Point(6, 1.5), hour_display)
+        metrics_display.draw(self.win)
 
 
 def main():
@@ -128,6 +133,7 @@ def main():
     display = Display()
     display.configure()
     display.update(list_hours)
+    display.metrics(list_hours)
     x = input("Good?")
 
 main()
