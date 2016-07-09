@@ -41,6 +41,9 @@ class Daily_Log():
             file_name = (input("Enter name of file to save: "))
         self.hour_report()
         self.work_array = self.work_array + self.hour_log
+        outfile = open(file_name, "w")
+        file_out =" ".join(str(x) for x in self.work_array) 
+        print(file_out, file=outfile)
 
     def graphic_array(self):
         #this is the array formated for use by Display, a list of ints
@@ -120,7 +123,7 @@ class Display():
         average_hours = float(total_hours / len(array)) 
         title_LOE = Text(Point(6, 11), "Display for Level of Effort")        
         title_LOE.draw(self.win) 
-        hour_display = "Total hours studied: {0}          Average hours on Day of Study: {1}".format(total_hours, average_hours)
+        hour_display = "Total hours studied: {0}          Average hours on Day of Study: {1:5.2f}".format(total_hours, average_hours)
         metrics_display = Text(Point(6, 1.5), hour_display)
         metrics_display.draw(self.win)
 
