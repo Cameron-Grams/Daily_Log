@@ -49,7 +49,7 @@ class Daily_Log():
         #this is the array formated for use by Display, a list of ints
         int_array = []
         for initial_hours in self.work_array:
-            i = int(initial_hours)
+            i = float(initial_hours)
             int_array.append(i)
         return int_array
 
@@ -99,7 +99,7 @@ class Display():
 
         #standard
         xs = Point(0.5, 9)
-        xl = Point(11, 9)
+        xl = Point(11.5, 9)
         standard = Line(xs, xl)
         standard.draw(self.win)
         standard.setOutline("Red")
@@ -117,9 +117,9 @@ class Display():
             progress_line = Line(p0, mark)
             progress_line.draw(self.win)
             p0 = mark   
-        end_point = Point(11, 9)
-        final_line = Line(p0, end_point) 
-        final_line.draw(self.win)       
+#        end_point = Point(11, 9)
+#        final_line = Line(p0, end_point) 
+#        final_line.draw(self.win)       
         
     def metrics(self, array):
         total_hours = sum(array)
